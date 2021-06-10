@@ -1,0 +1,10 @@
+mpirun -np 2 python3 communicator.py
+mpirun --oversubscribe -np 4 python3 broadcast.py
+mpirun --oversubscribe -np 4 python3 scatter.py
+mpirun --oversubscribe -np 4 python3 gather.py
+mpirun --oversubscribe -np 8 python3 reduction.py
+mpirun -np 2 python3 send_recv.py
+mpirun -np 2 python3 alice_bob.py
+mpirun -np 2 python3 p2p_send_recv.py
+mpirun -np 2 python3 p2p_numpy_send_recv.py
+mpirun -np 2 --oversubscribe python3 matrix_vector_multiplication.py
