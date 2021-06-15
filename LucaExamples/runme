@@ -1,0 +1,1 @@
+mpirun -np 4 python3 Example1.py 
