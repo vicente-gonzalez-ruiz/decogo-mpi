@@ -1,7 +1,7 @@
 # decogo-mpi
 A MPI test cases for decogo solver.
 
-## Install
+## MPI and `mpi4py` installation
 
 First install MPI in the system.
 
@@ -47,3 +47,13 @@ Please remember to load the correct module for your choosen MPI environment
 
 	$>module load mpi/mpich-x86_64
 	$>python -c "import mpi4py"
+
+### Arch Linux
+
+1. Install `openmpi`:
+
+	sudo pacman -S openmpi
+	
+2. Install `mpi4py`:
+
+	pip install mpi4py
