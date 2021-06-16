@@ -35,17 +35,17 @@ class MyApp(object):
             self.work_queue.add_work(data=('Do task', i))
        
         #
-        # Keeep starting slaves as long as there is work to do
+        # Keep starting slaves as long as there is work to do
         #
         while not self.work_queue.done():
 
             #
-            # give more work to do to each idle slave (if any)
+            # Give more work to do to each idle slave (if any)
             #
             self.work_queue.do_work()
 
             #
-            # reclaim returned data from completed slaves
+            # Reclaim returned data from completed slaves
             #
             for slave_return_data in self.work_queue.get_completed_work():
                 done, message = slave_return_data
@@ -54,7 +54,6 @@ class MyApp(object):
 
             # sleep some time
             time.sleep(0.3)
-
 
 class MySlave(Slave):
     """
@@ -72,14 +71,13 @@ class MySlave(Slave):
         print('  Slave %s rank %d executing "%s" task_id "%d"' % (name, rank, task, task_arg) )
         return (True, 'I completed my task (%d)' % task_arg)
 
-
 def main():
 
     name = MPI.Get_processor_name()
     rank = MPI.COMM_WORLD.Get_rank()
     size = MPI.COMM_WORLD.Get_size()
 
-    print('I am  %s rank %d (total %d)' % (name, rank, size) )
+    print('I am %s rank %d (total %d)' % (name, rank, size) )
 
     if rank == 0: # Master
 

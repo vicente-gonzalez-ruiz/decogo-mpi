@@ -1,4 +1,5 @@
 # decogo-mpi
+
 A MPI test cases for decogo solver.
 
 ## MPI and `mpi4py` installation
@@ -57,3 +58,106 @@ Please remember to load the correct module for your choosen MPI environment
 2. Install `mpi4py`:
 
 	pip install mpi4py
+
+## Installation of `decogo` and libraries
+
+### Set the environment
+
+1. Download `decogo`:
+
+		clone git: https://github.com/ouyang-w-19/decogo
+
+2. Create a virtual environment for Python:
+
+		cd decogo
+		python3 -m venv EnvDECOGO
+		
+3. Activate:
+
+		source EnvDECOGO/bin/activate
+		pip3 freeze
+		
+4. (Optional) de-activate:
+
+		desactivate
+
+### Build the documentation:
+
+1. `graphviz`:
+
+		pip3 install graphviz
+		
+2. `sphinx` and `sphinx_rtd_theme`:
+
+		pip3 install  sphinx
+		pip3 install sphinx_rtd_theme
+		
+3. Make:
+
+		make html
+		
+4. Open:
+
+		cd _build/html
+		open index.html
+
+### Install third party libraries for `decogo`:
+
+1. Pyomo:
+
+		pip3 install pyomo
+		
+2. Gurobi:
+
+		dnf install conda
+		conda create --name EnvCondaDecogo
+		conda activate EnvCondaDecogo
+		conda install gurobi
+		
+3. IPOPT:
+
+		dnf install coin-or-Ipopt.x86_64 coin-or-Ipopt-devel coin-or-Ipopt-mpich-devel
+		
+4. SCIP:
+
+	1. Create a directory for compiling the source code:
+	
+			mkdir Packages
+			cd SCIP
+			mkdir SCIP
+
+	2. Download the sources from https://www.scipopt.org/index.php#download
+	
+	3. Install the packages:
+	
+			dnf install boost.x86_64 boost-devel.x86_64  # Also install  boost-mpich-devel and boost-mpich-python3
+			dnf install cliquer-libs cliquer-devel       # Cliquer is a set of C routines for finding cliques in an arbitrary weighted graph.
+			dnf install lapack-devel.x86_64              # Also install scalapack-mpich scalapack-mpich-devel
+			dnf install glslang-devel                    # Official reference compiler front end for the OpenGL
+			dnf install readline-devel                   # The Readline library provides a set of functions that allow users to edit command lines.
+			dnf install gmp-devel                        # The gmp package contains GNU MP, a library for arbitrary precision arithmetic, signed integers operations, rational numbers and floating point numbers.
+			dnf install bliss bliss-devel                # Bliss is an open source tool for computing automorphism groups and canonical forms of graphs.
+			dnf install gsl gsl-devel                    # The GNU Scientific Library (GSL) is a collection of routines for numerical analysis, written in C.
+			
+			
+			# I seems hMetis is an optinal package for SCIP. It has to be installed from tgz.
+			
+			# Download hMetis from http://glaros.dtc.umn.edu/gkhome/metis/hmetis/download into DECOGO/Packages/hMetis/hmetis-1.5-linux
+			
+			ln -s hmetis2.0pre1 hmetis
+			
+			# And include this path in the PATH: in ~/bashrc or in ~/bin which is at the $PATH
+
+	4. Compile SCIP:
+	
+			cd DECOGO/Packages/SCIP
+			
+			
+		
+	conda activate EnvCondaDecogo
+	source EnvDECOGO/bin/activate
+	
+	deactivate
+	conda deactivate
+	
+	

@@ -1,6 +1,6 @@
 """
 Standard Master/Slave design in mpi4py, collects results in a list and pickles them to a file.
-https://gist.github.com/mgmarino/2773137
+Based on https://gist.github.com/mgmarino/2773137
 """
  
 from mpi4py import MPI
@@ -22,9 +22,9 @@ class Work():
  
 def master(wi):
     all_data = []
-    size = MPI.COMM_WORLD.Get_size()
-    current_work = Work(wi) 
     comm = MPI.COMM_WORLD
+    size = comm.Get_size()
+    current_work = Work(wi) 
     status = MPI.Status()
     for i in range(1, size): 
         anext = current_work.get_next_item() 
@@ -60,8 +60,11 @@ def main(work_list, do_work):
     rank = MPI.COMM_WORLD.Get_rank()
     name = MPI.Get_processor_name()
     size = MPI.COMM_WORLD.Get_size() 
+    print("Requested number of cores:", size)
     
     if rank == 0:
         all_dat = master(work_list)
     else:
         slave(do_work)
+
+main( ... unfinished ...)
