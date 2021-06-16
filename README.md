@@ -40,7 +40,7 @@ It needs in the system `pyhton3-devel` and I think `mpich` working as well.
 
 Also installled:
 
-	$>pip3 install whell 
+	$>pip3 install wheel 
 
 https://pypi.org/project/mpi4py/
 
