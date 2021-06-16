@@ -157,6 +157,7 @@ Please remember to load the correct module for your choosen MPI environment
 			cmake ..
 			make
 			
+<<<<<<< HEAD
 	5. Add SCIP build/bin to $PATH in ~/.bashrc
 		
 
@@ -167,7 +168,29 @@ To run decogo we habe to activate conda and after it pip3
 	
 	 run...
 	
+=======
+			# libs and binaries are at:
+			# DECOGO/Packages/SCIP/scipoptsuite-7.0.3/build/bin and
+			# DECOGO/Packages/SCIP/scipoptsuite-7.0.3/build/lib
+		
+	5. Add:
+	
+			DECOGO/Packages/SCIP/scipoptsuite-7.0.3/build/bin
+			
+	   to your PATH, and make this change permanent modifiying for example `~/.bashrc`.
+	   
+	6. Install some extra libraries:
+	
+			pip3 install networkx numpy scipy sympy
+			pip3 install pslib pyutilib
+
+## Environments activation:
+
+	conda activate EnvCondaDecogo
+	source EnvDECOGO/bin/activate
+
+## Environments deactivation:
+
+>>>>>>> c29a64af53e6a38899443ca3a1a0479bcf8fc3fc
 	deactivate
 	conda deactivate
-	
-	
