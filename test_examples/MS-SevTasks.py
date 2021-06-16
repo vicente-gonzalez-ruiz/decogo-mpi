@@ -76,6 +76,7 @@ if rankMPI == 0: 	#I am master
 	#receive from slave and feed it again
 	while PendRec:
 		dataSL=commMPI.recv(source=MPI.ANY_SOURCE,tag=TagRes) #data from slave (i,res,rank)
+		#TODO dataSL[2] could had been gotten with status.Get_source()
 		PendRec-=1
 		List[dataSL[0]][3]=dataSL[1]
 		if NSend<ListSize:
@@ -101,7 +102,7 @@ else: #I am a slave
 		#print(dataMS[1],OperSymb[tag],dataMS[2])
 		#sys.stdout.flush()
 		result=Operfunc[tag](dataMS[1],dataMS[2]) #fXxx(a,b)
-		dataSL=[dataMS[0],result,rankMPI]	#data from slave: (i,res,rank)
+		dataSL=[dataMS[0],result,rankMPI]	#data from slave: (i,res,rank) TODO:rank is not needed
 		commMPI.send(dataSL,dest=0,tag=TagRes)
 
 
