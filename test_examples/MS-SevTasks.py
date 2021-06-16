@@ -26,6 +26,12 @@ rankMPI = MPI.COMM_WORLD.Get_rank()
 nameMPI = MPI.Get_processor_name()
 sizeMPI = MPI.COMM_WORLD.Get_size()
 
+
+if sizeMPI<2:
+	if (rankMPI==0):
+		print("The number of proceses should be at least 2");
+	sys.exit()
+
 #print("Process",rankMPI,"/",sizeMPI,"in",nameMPI)
 #sys.stdout.flush()		#to flush all queued prints.
 

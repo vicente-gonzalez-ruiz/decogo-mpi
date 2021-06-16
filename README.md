@@ -19,7 +19,7 @@ To use an MPI build, the appropriate environment module must be loaded. These co
 
 	$> module load mpi/mpich-x86_64
 
-Better to put it on `/etc/bashrc`.
+Better to put it on `~/.bashrc`.
 
 Then check it with:
 
@@ -112,6 +112,7 @@ Please remember to load the correct module for your choosen MPI environment
 		dnf install conda
 		conda create --name EnvCondaDecogo
 		conda activate EnvCondaDecogo
+		conda config --add channels https://conda.anaconda.org/gurobi
 		conda install gurobi
 		
 3. IPOPT:
@@ -156,10 +157,15 @@ Please remember to load the correct module for your choosen MPI environment
 			cmake ..
 			make
 			
-			
+	5. Add SCIP build/bin to $PATH in ~/.bashrc
 		
+
+##order of environment
+To run decogo we habe to activate conda and after it pip3
 	conda activate EnvCondaDecogo
 	source EnvDECOGO/bin/activate
+	
+	 run...
 	
 	deactivate
 	conda deactivate
