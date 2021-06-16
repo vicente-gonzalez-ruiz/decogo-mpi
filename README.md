@@ -150,7 +150,11 @@ Please remember to load the correct module for your choosen MPI environment
 
 	4. Compile SCIP:
 	
-			cd DECOGO/Packages/SCIP
+			cd cd DECOGO/Packages/SCIP
+			mkdir build
+			cd build
+			cmake ..
+			make
 			
 			
 		
