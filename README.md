@@ -1,53 +1,42 @@
 # decogo-mpi
 
-A MPI test cases for decogo solver.
+An MPI implementation of the `decogo` solver.
 
 ## MPI and `mpi4py` installation
 
-First install MPI in the system.
+`decogo` is written in Python. Therefore, you need to install MPI and the Python's wrapper (mpi4py) in the system.
 
 ### Fedora 34
-See howto install and execute mpich:
 
-https://docs.fedoraproject.org/en-US/neurofedora/mpi/
+1. Install MPI.
 
-Select `mpich`. `openmpi` version is also available.
+There are two implementations for MPI: `mpich` and `openmpi`. We will use `mpich`. See also: https://docs.fedoraproject.org/en-US/neurofedora/mpi/
 
-	root$> dnf install mpich mpich-devel
+	sudo dnf install mpich mpich-devel
 
-To use an MPI build, the appropriate environment module must be loaded. These correctly setup paths, and environment variables. For MPICH builds:
+To use an MPI build, the appropriate environment module must be loaded. These correctly setup paths, and environment variables. For MPICH, run:
 
-	$> module load mpi/mpich-x86_64
+	module load mpi/mpich-x86_64
 
-Better to put it on `~/.bashrc`.
+And it's a good idea to put it at the end of your `~/.bashrc`.
 
-Then check it with:
+You can also try https://mpitutorial.com/tutorials/mpi-hello-world/ and see if everything is OK.
 
-https://mpitutorial.com/tutorials/mpi-hello-world/
+2. Install `mpi4py`:
 
-Then, you can install `mpi4py` on the system:
+For running Python, we will use `conda`.
 
-	root$> dnf install python3-mpi4py-mpich.x86_64
-	root$> dnf install mpi4py-docs.noarch
+	sudo dnf install conda
 	
-Docs are in `/usr/share/doc/mpi4py-docs`.
+Now install `mpi4py` (https://pypi.org/project/mpi4py/) through `conda` but in a virtual environment:
 
-To install `mpi4py` with `pip3`:
-
-	$>pip3 install mpi4py
+	conda create --name EnvCondaDecogo
+	conda activate EnvCondaDecogo # Remember: run "deactivate" to exit from the environment
+	conda install mpi4py
 	
-It needs in the system `pyhton3-devel` and I think `mpich` working as well.
+Perform a minimal test:
 
-Also installled:
-
-	$>pip3 install wheel 
-
-https://pypi.org/project/mpi4py/
-
-Please remember to load the correct module for your choosen MPI environment
-
-	$>module load mpi/mpich-x86_64
-	$>python -c "import mpi4py"
+	python -c "import mpi4py"
 
 ### Arch Linux
 
@@ -61,45 +50,9 @@ Please remember to load the correct module for your choosen MPI environment
 
 ## Installation of `decogo` and libraries
 
-### Set the environment
+### Download `decogo`:
 
-1. Download `decogo`:
-
-		clone git: https://github.com/ouyang-w-19/decogo
-
-2. Create a virtual environment for Python:
-
-		cd decogo
-		python3 -m venv EnvDECOGO
-		
-3. Activate:
-
-		source EnvDECOGO/bin/activate
-		pip3 freeze
-		
-4. (Optional) de-activate:
-
-		desactivate
-
-### Build the documentation:
-
-1. `graphviz`:
-
-		pip3 install graphviz
-		
-2. `sphinx` and `sphinx_rtd_theme`:
-
-		pip3 install  sphinx
-		pip3 install sphinx_rtd_theme
-		
-3. Make:
-
-		make html
-		
-4. Open:
-
-		cd _build/html
-		open index.html
+	git clone https://github.com/ouyang-w-19/decogo
 
 ### Install third party libraries for `decogo`:
 
@@ -109,7 +62,7 @@ Please remember to load the correct module for your choosen MPI environment
 		
 2. Gurobi:
 
-		dnf install conda
+		sudo dnf install conda
 		conda create --name EnvCondaDecogo
 		conda activate EnvCondaDecogo
 		conda config --add channels https://conda.anaconda.org/gurobi
@@ -194,3 +147,24 @@ To run decogo we habe to activate conda and after it pip3
 >>>>>>> c29a64af53e6a38899443ca3a1a0479bcf8fc3fc
 	deactivate
 	conda deactivate
+	
+	### Build the documentation:
+
+1. `graphviz`:
+
+		pip3 install graphviz
+		
+2. `sphinx` and `sphinx_rtd_theme`:
+
+		pip3 install  sphinx
+		pip3 install sphinx_rtd_theme
+		
+3. Make:
+
+		make html
+		
+4. Open:
+
+		cd _build/html
+		open index.html
+
