@@ -31,7 +31,7 @@ For running Python, we will use `conda`.
 Now install `mpi4py` (https://pypi.org/project/mpi4py/) through `conda` but in a virtual environment:
 
 	conda create --name EnvCondaDecogo
-	conda activate EnvCondaDecogo # Remember: run "deactivate" to exit from the environment
+	conda activate EnvCondaDecogo # Remember: run "conda deactivate" to exit from the environment
 	conda install mpi4py
 	
 Perform a minimal test:
@@ -56,115 +56,98 @@ Perform a minimal test:
 
 ### Install third party libraries for `decogo`:
 
-1. Pyomo:
+1. Pyomo (see https://anaconda.org/conda-forge/pyomo):
 
-		pip3 install pyomo
+	# Be sure to be in the virtual environment
+	conda install -c conda-forge pyomo
 		
 2. Gurobi:
 
-		sudo dnf install conda
-		conda create --name EnvCondaDecogo
-		conda activate EnvCondaDecogo
-		conda config --add channels https://conda.anaconda.org/gurobi
-		conda install gurobi
+  1. Register and create a academic license:
+  
+  	open https://www.gurobi.com/downloads/end-user-license-agreement-academic/
+
+  2. Download the executables from https://www.gurobi.com/downloads/ (Gurobi Optimizer):
+  
+    1. Go to https://www.gurobi.com/academia/academic-program-and-licenses/ and download the executables:
+    
+    	cd ~/DECOGO
+    	mkdir packages
+    	cd packages
+    	wget https://packages.gurobi.com/9.1/gurobi9.1.2_linux64.tar.gz
+    	
+  3. Update the enviroment variables:
+  
+  	export GUROBI_HOME="$HOME/DECOGO/packages/gurobi912/linux64"
+	export PATH="$GUROBI_HOME/bin:$PATH"
+	export LD_LIBRARY_PATH="$GUROBI_HOME/lib:$LD_LIBRARY_PATH"
+
+  4. Create the license (https://www.gurobi.com/downloads/free-academic-license/):
+  
+  	cd ~/DECOGO/packages/gurobi912/linux64/bin
+  	grbgetkey 62d6019e-d415-11eb-a08e-0242ac120002
+
+  5. Install the Python binding (see https://www.gurobi.com/documentation/9.1/quickstart_mac/cs_anaconda_and_grb_conda_.html):
+
+	# Be sure to be in the virtual environment
+	conda config --add channels https://conda.anaconda.org/gurobi
+	conda install gurobi
 		
-3. IPOPT:
+3. IPOPT (see https://coin-or.github.io/Ipopt/INSTALL.html, notice that this is a system-wide install):
 
-		dnf install coin-or-Ipopt.x86_64 coin-or-Ipopt-devel coin-or-Ipopt-mpich-devel
-		
-4. SCIP:
+	sudo dnf install coin-or-Ipopt.x86_64 coin-or-Ipopt-devel coin-or-Ipopt-mpich-devel
+	
+4. Some Python packages:
 
-	1. Create a directory for compiling the source code:
-	
-			mkdir Packages
-			cd SCIP
-			mkdir SCIP
+	conda install psutil pyutilib numpy scipy networkx pandas psutil
 
-	2. Download the sources from https://www.scipopt.org/index.php#download
+5. SCIP:
+
+  1. Create a directory for compiling the source code:
 	
-	3. Install the packages:
+	mkdir Packages
+	mkdir SCIP
+	cd SCIP
+
+  2. Download and untar the sources from https://www.scipopt.org/index.php#download
+  
+	tar xvf scip-7.0.3.tgz
 	
-			dnf install boost.x86_64 boost-devel.x86_64  # Also install  boost-mpich-devel and boost-mpich-python3
-			dnf install cliquer-libs cliquer-devel       # Cliquer is a set of C routines for finding cliques in an arbitrary weighted graph.
-			dnf install lapack-devel.x86_64              # Also install scalapack-mpich scalapack-mpich-devel
-			dnf install glslang-devel                    # Official reference compiler front end for the OpenGL
-			dnf install readline-devel                   # The Readline library provides a set of functions that allow users to edit command lines.
-			dnf install gmp-devel                        # The gmp package contains GNU MP, a library for arbitrary precision arithmetic, signed integers operations, rational numbers and floating point numbers.
-			dnf install bliss bliss-devel                # Bliss is an open source tool for computing automorphism groups and canonical forms of graphs.
-			dnf install gsl gsl-devel                    # The GNU Scientific Library (GSL) is a collection of routines for numerical analysis, written in C.
+  3. Install the packages:
+	
+	sudo dnf install boost.x86_64 boost-devel.x86_64  # Also install  boost-mpich-devel and boost-mpich-python3
+	sudo dnf install cliquer-libs cliquer-devel       # Cliquer is a set of C routines for finding cliques in an arbitrary weighted graph.
+	sudo dnf install lapack-devel.x86_64              # Also install scalapack-mpich scalapack-mpich-devel
+	sudo dnf install glslang-devel                    # Official reference compiler front end for the OpenGL
+	sudo dnf install readline-devel                   # The Readline library provides a set of functions that allow users to edit command lines.
+	sudo dnf install gmp-devel                        # The gmp package contains GNU MP, a library for arbitrary precision arithmetic, signed integers operations, rational numbers and floating point numbers.
+	sudo dnf install bliss bliss-devel                # Bliss is an open source tool for computing automorphism groups and canonical forms of graphs.
+	sudo dnf install gsl gsl-devel                    # The GNU Scientific Library (GSL) is a collection of routines for numerical analysis, written in C.
 			
-			
-			# I seems hMetis is an optinal package for SCIP. It has to be installed from tgz.
-			
-			# Download hMetis from http://glaros.dtc.umn.edu/gkhome/metis/hmetis/download into DECOGO/Packages/hMetis/hmetis-1.5-linux
-			
-			ln -s hmetis2.0pre1 hmetis
-			
-			# And include this path in the PATH: in ~/bashrc or in ~/bin which is at the $PATH
-
-	4. Compile SCIP:
+  4. Install AMPL:
+  
+  	cd ~/DECOGO/packages/SCIP/scipoptsuite-7.0.2/scip/interfaces/ampl
+  	./get.ASL
+  	cd solvers
+  	make -f makefile.u
+  	cd ..
+	mkdir build; cd build
+	cmake .. -DSCIP_DIR=~/DECOGO/packages/SCIP/scipoptsuite-7.0.2/build
+	make
+	ln -s `pwd`/scipampl ~/bin
 	
-			cd cd DECOGO/Packages/SCIP
-			mkdir build
-			cd build
-			cmake ..
-			make
-			
-<<<<<<< HEAD
-	5. Add SCIP build/bin to $PATH in ~/.bashrc
-		
+### Build the documentation:
 
-##order of environment
-To run decogo we habe to activate conda and after it pip3
-	conda activate EnvCondaDecogo
-	source EnvDECOGO/bin/activate
-	
-	 run...
-	
-=======
-			# libs and binaries are at:
-			# DECOGO/Packages/SCIP/scipoptsuite-7.0.3/build/bin and
-			# DECOGO/Packages/SCIP/scipoptsuite-7.0.3/build/lib
-		
-	5. Add:
-	
-			DECOGO/Packages/SCIP/scipoptsuite-7.0.3/build/bin
-			
-	   to your PATH, and make this change permanent modifiying for example `~/.bashrc`.
-	   
-	6. Install some extra libraries:
-	
-			pip3 install networkx numpy scipy sympy
-			pip3 install pslib pyutilib
+1. Install the packages:
 
-## Environments activation:
-
-	conda activate EnvCondaDecogo
-	source EnvDECOGO/bin/activate
-
-## Environments deactivation:
-
->>>>>>> c29a64af53e6a38899443ca3a1a0479bcf8fc3fc
-	deactivate
-	conda deactivate
-	
-	### Build the documentation:
-
-1. `graphviz`:
-
-		pip3 install graphviz
-		
-2. `sphinx` and `sphinx_rtd_theme`:
-
-		pip3 install  sphinx
-		pip3 install sphinx_rtd_theme
+	conda install graphviz sphinx sphinx_rtd_theme
 		
 3. Make:
 
-		make html
+	make html
 		
 4. Open:
 
-		cd _build/html
-		open index.html
+	cd _build/html
+	open index.html
 
