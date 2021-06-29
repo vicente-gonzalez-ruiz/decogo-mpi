@@ -1,0 +1,49 @@
+
+%----------------------------------------------
+Books:
+https://docs.google.com/viewer?a=v&pid=sites&srcid=b2JqZWN0bWFnZS5jb218cHJpdmF0ZS10cmFpbmluZ3xneDoyZjU2M2U4NGJiN2M0NWU2
+
+En O'reily given your ual email you get access to second edition:
+https://learning.oreilly.com/library/view/python-parallel-programming/9781789533736/
+
+https://github.com/PacktPublishing/Python-Parallel-Programming-Cookbook-Second-Edition
+
+%----------------------------------------------
+Articles:
+Parallel distributed computing using Python 2011
+https://doi.org/10.1016/j.advwatres.2011.04.013
+
+MPI for Python 2005
+https://doi.org/10.1016/j.jpdc.2005.03.010
+
+Parallel computing with Python 2014
+https://alvaroleitao.github.io/slides/parallel_python_ISEG14.pdf
+
+
+https://events.prace-ri.eu/event/1181/attachments/1548/2903/Python-parallel-gpu-1.pdf
+
+A Hands-on Introduction to MPI Python Programming
+https://www.nesi.org.nz/sites/default/files/mpi-in-python.pdf
+
+
+%---------------------------------------------
+Web pages:
+https://aaltoscicomp.github.io/python-for-scicomp/parallel/
+
+https://wiki.python.org/moin/ParallelProcessing
+
+https://www.geeksforgeeks.org/parallel-processing-in-python/
+
+https://www.machinelearningplus.com/python/parallel-processing-python/
+
+https://medium.com/swlh/5-step-guide-to-parallel-processing-in-python-ac0ecdfcea09
+
+https://docs.h5py.org/en/stable/mpi.html
+
+
+%-------------------------------------------------
+Cursos:
+https://stackskills.com/p/python-parallel-programming-solutions
+
+en O'reily tambien:
+https://learning.oreilly.com/videos/python-parallel-programming/9781787280496/
