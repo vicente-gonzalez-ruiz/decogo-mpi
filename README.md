@@ -1,53 +1,42 @@
 # decogo-mpi
 
-A MPI test cases for decogo solver.
+An MPI implementation of the `decogo` solver.
 
 ## MPI and `mpi4py` installation
 
-First install MPI in the system.
+`decogo` is written in Python. Therefore, you need to install MPI and the Python's wrapper (mpi4py) in the system.
 
 ### Fedora 34
-See howto install and execute mpich:
 
-https://docs.fedoraproject.org/en-US/neurofedora/mpi/
+1. Install MPI.
 
-Select `mpich`. `openmpi` version is also available.
+There are two implementations for MPI: `mpich` and `openmpi`. We will use `mpich`. See also: https://docs.fedoraproject.org/en-US/neurofedora/mpi/
 
-	root$> dnf install mpich mpich-devel
+	sudo dnf install mpich mpich-devel
 
-To use an MPI build, the appropriate environment module must be loaded. These correctly setup paths, and environment variables. For MPICH builds:
+To use an MPI build, the appropriate environment module must be loaded. These correctly setup paths, and environment variables. For MPICH, run:
 
-	$> module load mpi/mpich-x86_64
+	module load mpi/mpich-x86_64
 
-Better to put it on `~/.bashrc`.
+And it's a good idea to put it at the end of your `~/.bashrc`.
 
-Then check it with:
+You can also try https://mpitutorial.com/tutorials/mpi-hello-world/ and see if everything is OK.
 
-https://mpitutorial.com/tutorials/mpi-hello-world/
+2. Install `mpi4py`:
 
-Then, you can install `mpi4py` on the system:
+For running Python, we will use `conda`.
 
-	root$> dnf install python3-mpi4py-mpich.x86_64
-	root$> dnf install mpi4py-docs.noarch
+	sudo dnf install conda
 	
-Docs are in `/usr/share/doc/mpi4py-docs`.
+Now install `mpi4py` (https://pypi.org/project/mpi4py/) through `conda` but in a virtual environment:
 
-To install `mpi4py` with `pip3`:
-
-	$>pip3 install mpi4py
+	conda create --name EnvCondaDecogo
+	conda activate EnvCondaDecogo # Remember: run "conda deactivate" to exit from the environment
+	conda install mpi4py
 	
-It needs in the system `pyhton3-devel` and I think `mpich` working as well.
+Perform a minimal test:
 
-Also installled:
-
-	$>pip3 install wheel 
-
-https://pypi.org/project/mpi4py/
-
-Please remember to load the correct module for your choosen MPI environment
-
-	$>module load mpi/mpich-x86_64
-	$>python -c "import mpi4py"
+	python -c "import mpi4py"
 
 ### Arch Linux
 
@@ -61,136 +50,104 @@ Please remember to load the correct module for your choosen MPI environment
 
 ## Installation of `decogo` and libraries
 
-### Set the environment
+### Download `decogo`:
 
-1. Download `decogo`:
-
-		clone git: https://github.com/ouyang-w-19/decogo
-
-2. Create a virtual environment for Python:
-
-		cd decogo
-		python3 -m venv EnvDECOGO
-		
-3. Activate:
-
-		source EnvDECOGO/bin/activate
-		pip3 freeze
-		
-4. (Optional) de-activate:
-
-		desactivate
-
-### Build the documentation:
-
-1. `graphviz`:
-
-		pip3 install graphviz
-		
-2. `sphinx` and `sphinx_rtd_theme`:
-
-		pip3 install  sphinx
-		pip3 install sphinx_rtd_theme
-		
-3. Make:
-
-		make html
-		
-4. Open:
-
-		cd _build/html
-		open index.html
+	git clone https://github.com/ouyang-w-19/decogo
 
 ### Install third party libraries for `decogo`:
 
-1. Pyomo:
+1. Pyomo (see https://anaconda.org/conda-forge/pyomo):
 
-		pip3 install pyomo
+	# Be sure to be in the virtual environment
+	conda install -c conda-forge pyomo
 		
 2. Gurobi:
 
-		dnf install conda
-		conda create --name EnvCondaDecogo
-		conda activate EnvCondaDecogo
-		conda config --add channels https://conda.anaconda.org/gurobi
-		conda install gurobi
+  1. Register and create a academic license:
+  
+  	open https://www.gurobi.com/downloads/end-user-license-agreement-academic/
+
+  2. Download the executables from https://www.gurobi.com/downloads/ (Gurobi Optimizer):
+  
+    1. Go to https://www.gurobi.com/academia/academic-program-and-licenses/ and download the executables:
+    
+    	cd ~/DECOGO
+    	mkdir packages
+    	cd packages
+    	wget https://packages.gurobi.com/9.1/gurobi9.1.2_linux64.tar.gz
+    	
+  3. Update the enviroment variables:
+  
+  	export GUROBI_HOME="$HOME/DECOGO/packages/gurobi912/linux64"
+	export PATH="$GUROBI_HOME/bin:$PATH"
+	export LD_LIBRARY_PATH="$GUROBI_HOME/lib:$LD_LIBRARY_PATH"
+
+  4. Create the license (https://www.gurobi.com/downloads/free-academic-license/):
+  
+  	cd ~/DECOGO/packages/gurobi912/linux64/bin
+  	grbgetkey 62d6019e-d415-11eb-a08e-0242ac120002
+
+  5. Install the Python binding (see https://www.gurobi.com/documentation/9.1/quickstart_mac/cs_anaconda_and_grb_conda_.html):
+
+	# Be sure to be in the virtual environment
+	conda config --add channels https://conda.anaconda.org/gurobi
+	conda install gurobi
 		
-3. IPOPT:
+3. IPOPT (see https://coin-or.github.io/Ipopt/INSTALL.html, notice that this is a system-wide install):
 
-		dnf install coin-or-Ipopt.x86_64 coin-or-Ipopt-devel coin-or-Ipopt-mpich-devel
+	sudo dnf install coin-or-Ipopt.x86_64 coin-or-Ipopt-devel coin-or-Ipopt-mpich-devel
+	
+4. Some Python packages:
+
+	conda install psutil pyutilib numpy scipy networkx pandas psutil
+
+5. SCIP:
+
+  1. Create a directory for compiling the source code:
+	
+	mkdir Packages
+	mkdir SCIP
+	cd SCIP
+
+  2. Download and untar the sources from https://www.scipopt.org/index.php#download
+  
+	tar xvf scip-7.0.3.tgz
+	
+  3. Install the packages:
+	
+	sudo dnf install boost.x86_64 boost-devel.x86_64  # Also install  boost-mpich-devel and boost-mpich-python3
+	sudo dnf install cliquer-libs cliquer-devel       # Cliquer is a set of C routines for finding cliques in an arbitrary weighted graph.
+	sudo dnf install lapack-devel.x86_64              # Also install scalapack-mpich scalapack-mpich-devel
+	sudo dnf install glslang-devel                    # Official reference compiler front end for the OpenGL
+	sudo dnf install readline-devel                   # The Readline library provides a set of functions that allow users to edit command lines.
+	sudo dnf install gmp-devel                        # The gmp package contains GNU MP, a library for arbitrary precision arithmetic, signed integers operations, rational numbers and floating point numbers.
+	sudo dnf install bliss bliss-devel                # Bliss is an open source tool for computing automorphism groups and canonical forms of graphs.
+	sudo dnf install gsl gsl-devel                    # The GNU Scientific Library (GSL) is a collection of routines for numerical analysis, written in C.
+			
+  4. Install AMPL:
+  
+  	cd ~/DECOGO/packages/SCIP/scipoptsuite-7.0.2/scip/interfaces/ampl
+  	./get.ASL
+  	cd solvers
+  	make -f makefile.u
+  	cd ..
+	mkdir build; cd build
+	cmake .. -DSCIP_DIR=~/DECOGO/packages/SCIP/scipoptsuite-7.0.2/build
+	make
+	ln -s `pwd`/scipampl ~/bin
+	
+### Build the documentation:
+
+1. Install the packages:
+
+	conda install graphviz sphinx sphinx_rtd_theme
 		
-4. SCIP:
+3. Make:
 
-	1. Create a directory for compiling the source code:
-	
-			mkdir Packages
-			cd SCIP
-			mkdir SCIP
-
-	2. Download the sources from https://www.scipopt.org/index.php#download
-	
-	3. Install the packages:
-	
-			dnf install boost.x86_64 boost-devel.x86_64  # Also install  boost-mpich-devel and boost-mpich-python3
-			dnf install cliquer-libs cliquer-devel       # Cliquer is a set of C routines for finding cliques in an arbitrary weighted graph.
-			dnf install lapack-devel.x86_64              # Also install scalapack-mpich scalapack-mpich-devel
-			dnf install glslang-devel                    # Official reference compiler front end for the OpenGL
-			dnf install readline-devel                   # The Readline library provides a set of functions that allow users to edit command lines.
-			dnf install gmp-devel                        # The gmp package contains GNU MP, a library for arbitrary precision arithmetic, signed integers operations, rational numbers and floating point numbers.
-			dnf install bliss bliss-devel                # Bliss is an open source tool for computing automorphism groups and canonical forms of graphs.
-			dnf install gsl gsl-devel                    # The GNU Scientific Library (GSL) is a collection of routines for numerical analysis, written in C.
-			
-			
-			# I seems hMetis is an optinal package for SCIP. It has to be installed from tgz.
-			
-			# Download hMetis from http://glaros.dtc.umn.edu/gkhome/metis/hmetis/download into DECOGO/Packages/hMetis/hmetis-1.5-linux
-			
-			ln -s hmetis2.0pre1 hmetis
-			
-			# And include this path in the PATH: in ~/bashrc or in ~/bin which is at the $PATH
-
-	4. Compile SCIP:
-	
-			cd cd DECOGO/Packages/SCIP
-			mkdir build
-			cd build
-			cmake ..
-			make
-			
-<<<<<<< HEAD
-	5. Add SCIP build/bin to $PATH in ~/.bashrc
+	make html
 		
+4. Open:
 
-##order of environment
-To run decogo we habe to activate conda and after it pip3
-	conda activate EnvCondaDecogo
-	source EnvDECOGO/bin/activate
-	
-	 run...
-	
-=======
-			# libs and binaries are at:
-			# DECOGO/Packages/SCIP/scipoptsuite-7.0.3/build/bin and
-			# DECOGO/Packages/SCIP/scipoptsuite-7.0.3/build/lib
-		
-	5. Add:
-	
-			DECOGO/Packages/SCIP/scipoptsuite-7.0.3/build/bin
-			
-	   to your PATH, and make this change permanent modifiying for example `~/.bashrc`.
-	   
-	6. Install some extra libraries:
-	
-			pip3 install networkx numpy scipy sympy
-			pip3 install pslib pyutilib
+	cd _build/html
+	open index.html
 
-## Environments activation:
-
-	conda activate EnvCondaDecogo
-	source EnvDECOGO/bin/activate
-
-## Environments deactivation:
-
->>>>>>> c29a64af53e6a38899443ca3a1a0479bcf8fc3fc
-	deactivate
-	conda deactivate
