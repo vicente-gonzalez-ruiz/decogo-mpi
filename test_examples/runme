@@ -9,3 +9,4 @@ mpirun -np 2 python3 p2p_send_recv.py
 mpirun -np 2 python3 p2p_numpy_send_recv.py
 mpirun -np 2 --oversubscribe python3 matrix_vector_multiplication.py
 mpirun -np 3 --oversubscribe python3 hello_world.py
+pyomo solve pyomo-simple_concrete_model.py --solver=glpk

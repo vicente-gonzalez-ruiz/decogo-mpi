@@ -63,10 +63,9 @@ Perform a minimal test:
 	
 2. Solvers:
 
-	* GNU Linear Programming Kit:
+	* (Optional) GNU Linear Programming Kit:
 	
-		# Arch
-		pacman -S glpk
+	pacman -S glpk # Arch Linux
 		
 	* Gurobi:
 
