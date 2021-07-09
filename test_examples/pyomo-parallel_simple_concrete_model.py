@@ -16,9 +16,9 @@ opt = pyo.SolverFactory('glpk')
 # A simple model with binary variables
 #
 model = pyo.ConcreteModel()
-model.n = pyo.Param(initialize=4)
-model.x = pyo.Var(pyo.RangeSet(model.n), within=pyo.Binary)
-model.obj = pyo.Objective(expr=sum(model.x.values()))
+model.x = pyo.Var([1,2], domain=pyo.NonNegativeReals)
+model.obj = pyo.Objective(expr = 2*model.x[1] + 3*model.x[2])
+model.Constraint1 = pyo.Constraint(expr = 3*model.x[1] + 4*model.x[2] >= 1)
 
 if rank == 1:
     model.x[1].fix(1)
