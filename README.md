@@ -44,7 +44,7 @@ Perform a minimal test:
 
 	sudo pacman -S openmpi
 	
-2. Install `mpi4py`:
+2. Install `mpi4py` (notice that `gcc` must be installed):
 
 	pip install mpi4py
 
