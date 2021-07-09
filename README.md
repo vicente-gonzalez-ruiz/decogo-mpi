@@ -1,6 +1,6 @@
 # decogo-mpi
 
-An MPI implementation of the `decogo` solver.
+A MPI implementation of the `decogo` solver. The search space is splitted into blocks and each one is processed in parallel using a master-slave scheme.
 
 ## MPI and `mpi4py` installation
 
